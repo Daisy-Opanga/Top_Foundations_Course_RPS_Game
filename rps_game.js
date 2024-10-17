@@ -1,7 +1,9 @@
 let computerChoice, playerChoice;
 let computerScore = 0, playerScore = 0;
 let roundWinner , playerChoiceFinalCase, gameWinner;
-let  rounds ;
+let  rounds;
+
+const moves = queryselector;
 
 function getComputerChoice(){
    let randomChoice = Math.random();
@@ -79,10 +81,9 @@ const player = getPlayerChoice();
   }
 }
 function playGame(){
-    for (let gameRound = 1;  gameRound <= 5; gameRound++) {
-         playRound();
-         console.log(" The current score is-> Player: " + playerScore + " & Computer: " + computerScore);
-    }
+    playRound();
+    console.log(" The current score is-> Player: " + playerScore + " & Computer: " + computerScore);
+
     if (computerScore > playerScore){
       gameWinner = "Computer";
       console.log(" Too bad! You lost the game.");
@@ -95,4 +96,4 @@ function playGame(){
     }
     return console.log("The final winner is " + gameWinner + ".");
 }
-playGame();
+// playGame();
