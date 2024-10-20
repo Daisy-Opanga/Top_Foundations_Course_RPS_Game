@@ -6,13 +6,13 @@ let  rounds ;
 function getComputerChoice(){
    let randomChoice = Math.random();
     if (randomChoice <= 1/3) {
-        return computerChoice = "Rock";
+        return computerChoice = "rock";
     }
     else if( randomChoice > 1/3 && randomChoice <= 2/3){
-        return computerChoice = "Paper";
+        return computerChoice = "paper";
     }
     else
-    return computerChoice = "Scissors";
+    return computerChoice = "scissors";
 }
 function getPlayerChoice(){
     playerChoice = prompt("Rock, Paper or Scissors?\n Please enter your choice.");
@@ -76,7 +76,7 @@ const player = getPlayerChoice();
     default:
       console.log("An error occurred!");
      break;
-  }
+  } 
 }
 function playGame(){
     for (let gameRound = 1;  gameRound <= 5; gameRound++) {
