@@ -1,98 +1,79 @@
-let computerChoice, playerChoice;
+let playerChoice, computerChoice;
 let computerScore = 0, playerScore = 0;
-let roundWinner , playerChoiceFinalCase, gameWinner;
-let  rounds ;
+let roundWinner, gameWinner;
+let msg;
+
+const resultsDiv = document.querySelector(".results-container");
+const playerChoiceBtns = document.querySelectorAll("button");
+
+function playGame() {
+    playerChoiceBtns.forEach((button) => {
+      button.addEventListener("click", () =>{
+        if (playerScore < 5 && computerScore < 5) {
+        playerChoice = button.className;
+        computerChoice = getComputerChoice(); 
+        playGameRound(playerChoice,computerChoice);
+        displayResults();
+        if (playerScore === 5 || computerScore === 5){
+          displayFinalWinner();
+        }
+      }else {
+        resetGame();
+      } 
+      });
+    });
+  } 
 
 function getComputerChoice(){
    let randomChoice = Math.random();
     if (randomChoice <= 1/3) {
-        return computerChoice = "rock";
+        return "rock";
     }
     else if( randomChoice > 1/3 && randomChoice <= 2/3){
-        return computerChoice = "paper";
+        return "paper";
     }
     else
-    return computerChoice = "scissors";
+    return "scissors";
 }
-function getPlayerChoice(){
-    playerChoice = prompt("Rock, Paper or Scissors?\n Please enter your choice.");
-    return playerChoiceFinalCase = playerChoice.toLowerCase();   
-}
-function playRound() {
-const computer = getComputerChoice();
-const player = getPlayerChoice();
-  switch (computer) {
-    case "Rock":
-      if (player === "paper") {
-        roundWinner  = "player";
-        playerScore = playerScore + 1;
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner  + " wins!"); 
-      } else if (player  === "scissors") {
-        roundWinner  = "computer";
-        computerScore = computerScore + 1;
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner  + " wins!"); 
-      } else if (player === "rock") {
-        roundWinner  = "You tied.";
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner);
-      } else return console.log("Incorrect input");
-     break;
-    case "Paper":
-      if (player === "rock") {
-        roundWinner  = "computer";
-        computerScore = computerScore + 1;
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner  + " wins!"); 
-      } else if (player === "scissors") {
-        roundWinner  = "player";
-        playerScore = playerScore + 1;
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner  + " wins!"); 
-      } else if (player === "paper") {
-        roundWinner  = "You tied.";
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner); 
-      } else return console.log("Incorrect input");
-     break;
-    case "Scissors":
-      if (player === "rock") {
-        roundWinner  = "player";
-        playerScore = playerScore + 1;
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner  + " wins!"); 
-      } else if (player === "paper") {
-        roundWinner  = "computer";
-        computerScore = computerScore + 1;
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner  + " wins!"); 
-      } else if (player === "scissors") {
-        roundWinner  = "You tied.";
-        return  console.log("The computer played " + computerChoice +
-            " and you played " + playerChoice + ". \n " + roundWinner); 
-      } else return console.log("Incorrect input");
-     break;
-    default:
-      console.log("An error occurred!");
-     break;
+
+function playGameRound(playerChoice, computerChoice){
+  if (playerChoice === computerChoice) {
+    msg = "It's a tie!";
+  } else if (playerChoice === "rock" && computerChoice === "scissors" ||
+    playerChoice === "scissors" && computerChoice === "paper" || 
+    playerChoice === "paper" && computerChoice === "rock"){
+    playerScore++;
+    roundWinner = "player";
+    msg = "You win!";
+  } else {
+    computerScore++;
+    roundWinner = "computer";
+    msg = "You lose!";
   } 
 }
-function playGame(){
-    for (let gameRound = 1;  gameRound <= 5; gameRound++) {
-         playRound();
-         console.log(" The current score is-> Player: " + playerScore + " & Computer: " + computerScore);
-    }
-    if (computerScore > playerScore){
-      gameWinner = "Computer";
-      console.log(" Too bad! You lost the game.");
-    }else if (playerScore > computerScore) {
-      gameWinner = "Player";
-      console.log("Congratulations! You won the game.");
-    } else {
-      console.log("Something went wrong!");
-      playGame();
-    }
-    return console.log("The final winner is " + gameWinner + ".");
+
+function displayResults(){
+  resultsDiv.innerHTML = "";
+  const para1 = document.createElement("p");
+  para1.textContent = `Player: ${playerChoice} vs Computer: ${computerChoice}. ${msg}`;
+  const para2 = document.createElement("p");
+  para2.textContent = `The current scores are: Player ${playerScore} vs Computer ${computerScore}`;
+  resultsDiv.append(para1, para2);
+}
+
+function displayFinalWinner() {
+  playerScore > computerScore ? gameWinner = "Player" : gameWinner = "Computer";
+
+  const para3 = document.createElement("p");
+  para3.textContent = `The final winner is the ${gameWinner}.`;
+  const newGame = document.createElement("button");
+  resultsDiv.append(para3);
+}
+function resetGame() {
+  playerScore = 0;
+  computerScore = 0;
+  gameWinner = "";
+  roundWinner = "";
+  resultsDiv.innerHTML = "";
 }
 playGame();
